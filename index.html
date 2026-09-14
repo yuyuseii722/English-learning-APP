@@ -81,6 +81,47 @@
     <div class="card" style="padding: 15px 20px;">
         <button class="btn btn-help" id="helpBtn">❓ 日本語で質問する</button>
     </div>
+<script>
+        // 単語データのリスト（ここを増やせば単語帳が大きくなります）
+        const phrases = [
+            { en: "It's a piece of cake.", ja: "そんなの朝飯前だよ。" },
+            { en: "I'm on my way.", ja: "今向かっているところです。" },
+            { en: "Could you speak a little slower?", ja: "もう少しゆっくり話していただけますか？" },
+            { en: "That makes sense.", ja: "なるほど、そういうことですね。" }
+        ];
 
+        let currentIndex = 0;
+
+        // 画面の文字を書き換える関数
+        function updateDisplay() {
+            document.querySelector('.phrase-en').textContent = phrases[currentIndex].en;
+            document.querySelector('.phrase-ja').textContent = phrases[currentIndex].ja;
+        }
+
+        // ①「発音を聴く」ボタンの動き（ブラウザの音声合成機能）
+        document.getElementById('playBtn').addEventListener('click', () => {
+            const text = phrases[currentIndex].en;
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US'; // 英語のネイティブ発音に設定
+            utterance.rate = 0.9;     // 少しだけゆっくり（1.0が標準）
+            speechSynthesis.speak(utterance);
+        });
+
+        // ②「次のフレーズ」ボタンの動き
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex++;
+            // 最後までいったら最初に戻る
+            if (currentIndex >= phrases.length) {
+                currentIndex = 0;
+            }
+            updateDisplay();
+        });
+
+        // ③「日本語で質問する」ボタンの動き（仮）
+        document.getElementById('helpBtn').addEventListener('click', () => {
+            alert("ここにAI（Gemini等）への日本語質問チャット画面を開く処理を追加します！");
+        });
+    </script>
+    
 </body>
 </html>
